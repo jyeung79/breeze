@@ -1,8 +1,11 @@
 const axios = require('axios');
+const helper = require('./helper');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 const api = ['AIzaSyCNgF420mDNKUhQleg2dmAbATUdXZGe7LU','57a5af899175dbb182ece9faeebfe2c0'];
 
 app.set('view engine', 'ejs');
@@ -14,31 +17,33 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', async function (req, res) {
+    global.document = new JSDOM('./public/index.ejs').window.document;
+
+    let [lat, lng] = [0, 0];
     let location = req.body.location;
     let [city, country] = location.toString().split(',');
     console.log(city + country);
     let urlMap = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${country}&key=${api[0]}`;
 
-    // use backticks ` ` when using template literals
-    // ? appends query parameters, & added between multiple parameters
     try {
-        let coordinates = await axios.get(urlMap).then(response => {return response.data.results[0].geometry.location});
-        console.log(coordinates);
-        let urlDark = `https://api.darksky.net/forecast/${api[1]}/${coordinates.lat},${coordinates.lng}?exclude=minutely,hourly,daily,alerts,flags&units=ca`;
-        let weather = await axios.get(urlDark).then(response => {return response.data.currently});
-        console.log(weather);
-        //let weather = JSON.parse(currently);
-        //console.log(weather);
-        
+        // Assume one city to be chosen for now
+        let responseGeo  = await axios.get(urlMap).then(response => {return response.data.results});
+        [lat, lng] = helper.getCoordinates(responseGeo);
+
+        let urlDark = `https://api.darksky.net/forecast/${api[1]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
+        let weather = await axios.get(urlDark).then(response => {return response.data});
+        console.log(weather.daily);
+        //let weatherObject = helper.generateCurrentForecast(weather);
+        let weatherObject = helper.generateHourlyForecast(weather);
+        //console.log(weatherObject);
+
         if (weather == undefined){
-            res.render('index', {weather: null, error: 'Error, please try again'});
+            res.render('index', {weatherObject: null, error: 'Error. Type in City, Country format.'});
         } else {
-            let weatherText = `It's ${weather.temperature} degrees outside so its ${weather.summary}.`
-            res.render('index', {weather: weatherText, error: null});
+            res.render('index', {weatherObject: weatherObject, error: null});
         }
     } catch (err) {
-        console.log(err);
-        res.render('index', {weather: null, error: 'Error, please try again'});
+        res.render('index', {weatherObject: null, error: err});
     }
 })
 
