@@ -46,7 +46,17 @@ module.exports = {
         if (object === undefined) {
             throw "Try again. Type in the city, country";
         } else {
-            //let weeklyWeather = object.
+            let weeklyWeather = object.daily.data;
+            let weatherData = [];
+            weeklyWeather.forEach(object => {
+                object.time = new Date(object.time*1000).toDateString();
+                object.precipProbability = (object.precipProbability*100) + '%';
+                object.temperatureMin = object.temperatureMin + ' C';
+                object.temperatureMax = object.temperatureMax + ' C';
+                weatherData.push(unwrapWeekly(object));
+            });
+            console.log(weatherData);
+            return weatherData;
         }
     },
     // Generate HTML for estimated travel dates
@@ -59,30 +69,10 @@ module.exports = {
     },
     // Generate 
 
-
-
-
-
-
-
 }
 //Private variables and functions not accessible
 // function to unwrap desired key value pairs
 let unwrap = ({time, summary, precipProbability, temperature}) => ({time, summary, precipProbability, temperature});
-
-// Generate a table
-function generateTable(data) {
-    let table = document.createElement('table');
-    let thead = table.createTHead();
-    let row = thead.insertRow();
-
-    Object.keys(data).forEach(function (item) {
-        let th = document.createElement("th");
-        let text = document.createTextNode(item);
-        th.appendChild(text);
-        row.appendChild(th);
-        console.log(item);
-    })
-    console.log(table);
-    return table;
-}
+let unwrapWeekly = ({time, summary, precipProbability, temperatureMin, temperatureMax}) => (
+    {time, summary, precipProbability, temperatureMin, temperatureMax}
+);

@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 app.post('/', async function (req, res) {
     global.document = new JSDOM('./public/index.ejs').window.document;
 
-    let [lat, lng] = [0, 0];
+    let [lat, lng] = [null, null];
     let location = req.body.location;
     let [city, country] = location.toString().split(',');
     console.log(city + country);
@@ -34,8 +34,8 @@ app.post('/', async function (req, res) {
         let weather = await axios.get(urlDark).then(response => {return response.data});
         console.log(weather.daily);
         //let weatherObject = helper.generateCurrentForecast(weather);
-        let weatherObject = helper.generateHourlyForecast(weather);
-        //console.log(weatherObject);
+        //let weatherObject = helper.generateHourlyForecast(weather);
+        let weatherObject = helper.generateWeeklyForecast(weather);
 
         if (weather == undefined){
             res.render('index', {weatherObject: null, error: 'Error. Type in City, Country format.'});
