@@ -15,22 +15,21 @@
           <input type="submit" class="ghost-button" value="Get Weather">
         </form>
       </fieldset>
-      <% if (weatherObject !== null) { %>
-        <% weatherObject.forEach((object) => { %>
-        <table>
-        <% Object.entries(object).forEach(([key, value]) => {%>
-            <tr>
-              <th><%= key %></th>
-              <% console.log(key + ', ' + value) %>
-              <th><%= value %></th>
-            </tr>
-            <% }); %>
-        </table>
-      <% })} %>
-      <% if (error !== null) { %>
-            <p><%= error %></p>
-      <% } %>
-
+        <% if (weatherObject !== null) { %>
+          <% weatherObject.forEach((object) => { %>
+          <table>
+          <% Object.entries(object).forEach(([key, value]) => { %>
+              <tr>
+                <th><%= key %></th>
+                <th><%= value %></th>
+              </tr>
+              <% }); %>
+          </table>
+          <% }); %>
+        <% } %>
+        <% if (error !== null) { %>
+              <p><%= error %></p>
+            <% } %>
     </div>
   </body>
 </html>
