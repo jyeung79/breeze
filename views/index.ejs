@@ -12,6 +12,7 @@
   </head>
   <body>
     <div class="container mx-auto my-4">
+
       <fieldset id='fieldForm'>
         <form action="/" method="post">
           <div id="input-styling-address">
@@ -43,9 +44,8 @@
         </script>
         </form>
       </fieldset>
-      
-      
-      <div class="weather-container font-sans w-512 max-w-lg rounded-lg bg-gray-500 overflow-hidden shadow-lg text-white mt-4">
+         
+      <div class="weather-container font-sans w-full max-w-5xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4">
         <div class="current-weather flex items-center justify-between px-6 py-4">
           <div class="flex items-center">
             <div>
@@ -57,10 +57,49 @@
             <div class="font-semibold">Cloudy</div>
             <div>Vancouver, Canada</div>
           </div>
-          <div
-            ><canvas id="icon1" width="64" height="64"></canvas>
+          <div>
+            <canvas id="icon1" width="64" height="64"></canvas>
           </div>
         </div> <!-- End of current weather -->
+
+        <div class="future-weather text-sm bg-gray-600 px-6 py-8 overflow-hidden">
+          <div class="flex items-center">
+            <div class="w-1/6 text-lg text-gray-200">MON</div>
+            <div class="w-4/6 px-2 flex items-center"></div>
+              <div>
+                <canvas id="icon2" width="48" height="48"></canvas>
+              </div>
+              <div class="ml-3">Cloudy with a chance of showers</div>
+            <div class="w-1/6">
+              <div>5°C</div>
+              <div>-2°C</div>
+            </div>
+          </div>
+
+          <div class="flex items-center mt-8">
+            <div class="w-1/6 text-lg text-gray-200">TUES</div>
+            <div class="w-4/6 px-2 flex items-center"></div>
+              <div>icon</div>
+              <div class="ml-3">Cloudy with a chance of showers</div>
+            <div class="w-1/6">
+              <div>5°C</div>
+              <div>-2°C</div>
+            </div>
+          </div>
+
+          <div class="flex items-center mt-8">
+            <div class="w-1/6 text-lg text-gray-200">WEDS</div>
+            <div class="w-4/6 px-2 flex items-center"></div>
+              <div>icon</div>
+              <div class="ml-3">Cloudy with a chance of showers</div>
+            <div class="w-1/6">
+              <div>5°C</div>
+              <div>-2°C</div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
           
           <!--<div>
             <% if (weatherObject !== null) { %>
@@ -74,19 +113,21 @@
                       <p><%= error %></p>
                       <% } %>
                     </div> -->
-        </div>
         
         <script>
           let skycons = new Skycons({"monochrome": false});
           skycons.add("icon1", Skycons.PARTLY_CLOUDY_DAY);
+          skycons.add("icon2", Skycons.RAIN);
           skycons.play();
         </script>
 
         <div class="px-6 py-4">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#Dark Sky API</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#Algolia place</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#Google</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#Geoencoding API</span>
         </div>
-      </div>
+    </div>
+
   </body>
 </html>
