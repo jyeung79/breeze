@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
 app.post('/', async function (req, res) {
     let [lat, lng] = [49.2827, 123.1207]; // Location of Vancouver
     let location = req.body.location;
+    console.log(location);
     let [city, country] = location.toString().split(',');
-    console.log(city + country);
     let urlMap = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${country}&key=${api[0]}`;
 
     try {

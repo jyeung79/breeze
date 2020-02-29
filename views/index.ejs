@@ -2,34 +2,91 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Vacation Weather App</title>
+    <title>Forecast Weather App</title>
     <link rel="stylesheet" type="text/css" href="/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/ap-dropdown.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <script src="/skycons-master/skycons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.1"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container mx-auto my-4">
       <fieldset id='fieldForm'>
         <form action="/" method="post">
-          <input name="location" type="search" class="ghost-input" id="address-input" placeholder="Enter a City, Country" required>
-          <input type="submit" class="ghost-button" value="Get Weather">
+          <div id="input-styling-address">
+            <input name="location" type="search" id="address" class="form-control" placeholder="Where are we going?" />
+          </div>
+          <p class="mt-4 text-xl">Selected: <strong id="address-value">none</strong></p>
+          
+          <script>
+            (function() {
+              var placesAutocomplete = places({
+                appId: 'plVVQ87U2ZPF',
+                apiKey: 'c35ecc9ab5dac235dd492ef0710c5537',
+                container: document.querySelector('#input-styling-address input'),
+                style: false,
+            }).configure({
+              type: 'city',
+              language: 'en',
+            });
+
+            let $address = document.querySelector('#address-value');
+            placesAutocomplete.on('change', function(e) {
+              $address.textContent = e.suggestion.value
+            });
+
+            placesAutocomplete.on('clear', function() {
+              $address.textContent = 'none';
+            });
+          })();
+        </script>
         </form>
       </fieldset>
-        <% if (weatherObject !== null) { %>
-          <% weatherObject.forEach((object) => { %>
-          <table>
-          <% Object.entries(object).forEach(([key, value]) => { %>
-              <tr>
-                <th><%= key %></th>
-                <th><%= value %></th>
-              </tr>
-              <% }); %>
-          </table>
-          <% }); %>
-        <% } %>
-        <% if (error !== null) { %>
-              <p><%= error %></p>
-            <% } %>
-    </div>
+      
+      
+      <div class="weather-container font-sans w-512 max-w-lg rounded-lg bg-gray-500 overflow-hidden shadow-lg text-white mt-4">
+        <div class="current-weather flex items-center justify-between px-6 py-4">
+          <div class="flex items-center">
+            <div>
+              <div class="text-6xl font-semibold">8°C</div>
+              <div>Feels like 2°C</div>
+            </div>
+          </div>
+          <div class="mx-5">
+            <div class="font-semibold">Cloudy</div>
+            <div>Vancouver, Canada</div>
+          </div>
+          <div
+            ><canvas id="icon1" width="64" height="64"></canvas>
+          </div>
+        </div> <!-- End of current weather -->
+          
+          <!--<div>
+            <% if (weatherObject !== null) { %>
+              <% weatherObject.forEach((object) => { %>
+                  <% Object.entries(object).forEach(([key, value]) => { %>
+                    <p class="text-white text-base "><%=value %></p>
+                    <% }); %>
+                    <% }); %>
+                    <% } %>
+                    <% if (error !== null) { %>
+                      <p><%= error %></p>
+                      <% } %>
+                    </div> -->
+        </div>
+        
+        <script>
+          let skycons = new Skycons({"monochrome": false});
+          skycons.add("icon1", Skycons.PARTLY_CLOUDY_DAY);
+          skycons.play();
+        </script>
+
+        <div class="px-6 py-4">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
+        </div>
+      </div>
   </body>
 </html>
