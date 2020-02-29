@@ -1,46 +1,56 @@
-#input-styling-address input {
+/* Main input wrapper */
+.algolia-places {}
+
+/* The algolia-places input */
+.ap-input, .ap-hint {}
+
+/* The style of the svg icons when the input is on hover */
+.ap-input:hover ~ .ap-input-icon svg,
+.ap-input:focus ~ .ap-input-icon svg,
+.ap-input-icon:hover svg {}
+
+/* The dropdown style */
+.ap-dropdown-menu {}
+
+/* The suggestions style */
+.ap-suggestion {}
+
+/* The highlighted names style */
+.ap-suggestion em {}
+
+/* The addresses style */
+.ap-address {}
+
+/* The icons of each suggestions ( can be a building or a pin ) */
+.ap-suggestion-icon {}
+
+/* The style of the svg inside the .ap-suggestion-icon */
+.ap-suggestion-icon svg {
     display: inline-block;
-    border: 1px solid #d9d9d9;
-    border-radius: 12px;
-    background: #ffffff;
-    padding: 1em 0 1em 45px;
-    width: 100%;
-  }
-  
-#input-styling-address input:focus, #input-styling-address input:active {
-    outline: 0;
-    border-color: #aaaaaa;
-    background: #ffffff;
+    margin-top: -3px;
+}
+/* The icons inside the input ( can be a pin or a cross ) */
+.ap-input-icon {}
+
+/* The style of the svg inside the .ap-input-icon */
+.ap-input-icon svg {}
+
+/* .a-cursor is the class a suggestion go on hover */
+.ap-cursor {}
+
+/* The style of the svg icon, when the .ap-suggestion is on hover */
+.ap-cursor .ap-suggestion-icon svg {}
+
+/* The styles of the Algolia Places input footer */
+.ap-footer {}
+
+/* The styles of the Algolia Places input footer links */
+.ap-footer a {
+    display: inline-block;
 }
 
-#input-styling-address .ap-nostyle-dropdown-menu {
-    box-shadow: none;
-    border: 1px solid #dadada;
-    color: black;
-    border-radius: 12px;
-    background: #fff;
-    width: 100%;
-}
+/* The styles of the Algolia Places input footer svg icons */
+.ap-footer a svg {}
 
-#input-styling-address .ap-nostyle-input-icon {
-    display: block;
-    position: absolute;
-    background: none;
-    border: none;
-}
-
-#input-styling-address .algolia-places-nostyle { width: 100%; max-width: 64rem;}
-#input-styling-address .ap-nostyle-icon-pin { left: 5px;top: 10px; }
-#input-styling-address .ap-nostyle-icon-clear { right: 5px;top: 15px }
-#input-styling-address input:hover { border-color: silver;}
-#input-styling-address input::placeholder { color: #aaaaaa; }
-#input-styling-address .ap-nostyle-suggestion { 
-    border-bottom: 1px solid #efefef;
-    padding: 2px 15px;
-    margin: auto 0;
-    text-align: center;
-}
-#input-styling-address .ap-nostyle-suggestion:hover, #input-styling-address .ap-nostyle-suggestion.ap-nostyle-suggestion:active { 
-    border-bottom: 1px solid black;
-    background-color:#e8e8e7;
-}
+/* The styles of the Algolia Places input footer on hover */
+.ap-footer:hover {}
