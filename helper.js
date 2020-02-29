@@ -18,9 +18,9 @@ module.exports = {
             let weatherData = [unwrap(currentWeather)];
 
             weatherData[0].time = new Date(weatherData[0].time*1000).toGMTString();
-            weatherData[0].precipProbability = (weatherData[0].precipProbability*100) + '%';
+            weatherData[0].precipProbability = 'Precip: ' + (weatherData[0].precipProbability*100) + '%';
             weatherData[0].temperature = weatherData[0].temperature + ' C';
-            console.log(weatherData);
+            //console.log(weatherData);
             return weatherData;
         }
     },
@@ -32,12 +32,12 @@ module.exports = {
             let hourlyWeather = object.hourly.data;
             let weatherData = [];
             hourlyWeather.forEach(object => {
-                object.time = new Date(object.time*1000).toGMTString();
-                object.precipProbability = (object.precipProbability*100) + '%';
+                object.time = new Date(object.time*1000).toGMTString().slice(0,22);
+                object.precipProbability = 'Precip: ' + (object.precipProbability*100) + '%';
                 object.temperature = object.temperature + ' C';
                 weatherData.push(unwrap(object));
             });
-            console.log(weatherData);
+            //console.log(weatherData);
             return weatherData;
         }
     },
@@ -50,12 +50,12 @@ module.exports = {
             let weatherData = [];
             weeklyWeather.forEach(object => {
                 object.time = new Date(object.time*1000).toDateString();
-                object.precipProbability = (object.precipProbability*100) + '%';
+                object.precipProbability = 'Precip: ' + (object.precipProbability*100) + '%';
                 object.temperatureMin = object.temperatureMin + ' C';
                 object.temperatureMax = object.temperatureMax + ' C';
                 weatherData.push(unwrapWeekly(object));
             });
-            console.log(weatherData);
+            //console.log(weatherData);
             return weatherData;
         }
     },
@@ -72,7 +72,11 @@ module.exports = {
 }
 //Private variables and functions not accessible
 // function to unwrap desired key value pairs
-let unwrap = ({time, summary, precipProbability, temperature}) => ({time, summary, precipProbability, temperature});
-let unwrapWeekly = ({time, summary, precipProbability, temperatureMin, temperatureMax}) => (
-    {time, summary, precipProbability, temperatureMin, temperatureMax}
+let unwrap = (
+    {temperature, apparentTemperature, time, summary, precipProbability, icon}) => (
+    {temperature, apparentTemperature, time, summary, precipProbability, icon}
+);
+let unwrapWeekly = (
+    {icon, time, summary, precipProbability, temperatureMin, temperatureMax, apparentTemperatureMin, apparentTemperatureMax}) => (
+    {icon, time, summary, precipProbability, temperatureMin, temperatureMax, apparentTemperatureMin, apparentTemperatureMax}
 );
