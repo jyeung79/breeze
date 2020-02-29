@@ -1,0 +1,34 @@
+{
+  "name": "vacation-weather-app",
+  "version": "1.0.0",
+  "description": "Weather app provides historical data and forecasting",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "postcss public/css/tailwind.css -o public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-yeung/vacation-weather-app.git"
+  },
+  "keywords": [
+    "vacation",
+    "weather"
+  ],
+  "author": "Jeffery Yeung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeff-yeung/vacation-weather-app/issues"
+  },
+  "homepage": "https://github.com/jeff-yeung/vacation-weather-app#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "ejs-lint": "^1.0.1",
+    "express": "^4.17.1",
+    "places.js": "^1.18.1",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.2.0"
+  }
+}

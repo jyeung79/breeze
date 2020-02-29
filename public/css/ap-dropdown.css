@@ -1,0 +1,46 @@
+#input-styling-address input {
+    display: inline-block;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 1em 0 1em 45px;
+    width: 100%;
+  }
+  
+#input-styling-address input:focus, #input-styling-address input:active {
+    outline: 0;
+    border-color: #aaaaaa;
+    background: #ffffff;
+}
+
+#input-styling-address .ap-nostyle-dropdown-menu {
+    box-shadow: none;
+    border: 1px solid #dadada;
+    color: black;
+    border-radius: 12px;
+    background: #fff;
+    width: 100%;
+}
+
+#input-styling-address .ap-nostyle-input-icon {
+    display: block;
+    position: absolute;
+    background: none;
+    border: none;
+}
+
+#input-styling-address .algolia-places-nostyle { width: 80%;}
+#input-styling-address .ap-nostyle-icon-pin { left: 5px;top: 10px; }
+#input-styling-address .ap-nostyle-icon-clear { right: 5px;top: 15px }
+#input-styling-address input:hover { border-color: silver;}
+#input-styling-address input::placeholder { color: #aaaaaa; }
+#input-styling-address .ap-nostyle-suggestion { 
+    border-bottom: 1px solid #efefef;
+    padding: 2px 15px;
+    margin: auto 0;
+    text-align: center;
+}
+#input-styling-address .ap-nostyle-suggestion:hover { 
+    border-bottom: 1px solid black;
+    background-color:#e8e8e7;
+}
