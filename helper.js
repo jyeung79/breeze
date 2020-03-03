@@ -18,7 +18,7 @@ module.exports = {
             let weatherData = [unwrap(currentWeather)];
 
             weatherData[0].time = new Date(weatherData[0].time*1000).toGMTString();
-            weatherData[0].precipProbability = 'Precip: ' + (weatherData[0].precipProbability*100) + '%';
+            weatherData[0].precipProbability = Math.round(weatherData[0].precipProbability*100) + '%';
             weatherData[0].temperature = weatherData[0].temperature + ' C';
             //console.log(weatherData);
             return weatherData;
@@ -32,8 +32,10 @@ module.exports = {
             let hourlyWeather = object.hourly.data;
             let weatherData = [];
             hourlyWeather.forEach(object => {
-                object.time = new Date(object.time*1000).toGMTString().slice(0,22);
-                object.precipProbability = 'Precip: ' + (object.precipProbability*100) + '%';
+                object.temperature = Math.round(object.temperature);
+                object.apparentTemperature = Math.round(object.apparentTemperature);
+                object.time = new Date(object.time*1000).toLocaleTimeString([],{weekday:'short', hour:'2-digit', minute:'2-digit'});
+                object.precipProbability = Math.round(object.precipProbability*100) + '%';
                 object.temperature = object.temperature + ' C';
                 weatherData.push(unwrap(object));
             });
@@ -50,7 +52,7 @@ module.exports = {
             let weatherData = [];
             weeklyWeather.forEach(object => {
                 object.time = new Date(object.time*1000).toDateString();
-                object.precipProbability = 'Precip: ' + (object.precipProbability*100) + '%';
+                object.precipProbability = Math.round(object.precipProbability*100) + '%';
                 object.temperatureMin = object.temperatureMin + ' C';
                 object.temperatureMax = object.temperatureMax + ' C';
                 weatherData.push(unwrapWeekly(object));
@@ -76,7 +78,8 @@ let unwrap = (
     {temperature, apparentTemperature, time, summary, precipProbability, icon}) => (
     {temperature, apparentTemperature, time, summary, precipProbability, icon}
 );
+
 let unwrapWeekly = (
-    {icon, time, summary, precipProbability, temperatureMin, temperatureMax, apparentTemperatureMin, apparentTemperatureMax}) => (
-    {icon, time, summary, precipProbability, temperatureMin, temperatureMax, apparentTemperatureMin, apparentTemperatureMax}
+    {time, icon, summary, precipProbability, temperatureMax, temperatureMin}) => (
+    {time, icon, summary, precipProbability, temperatureMax, temperatureMin}
 );

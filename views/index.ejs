@@ -10,6 +10,11 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <script src="/skycons-master/skycons.js"></script>
   </head>
+  
+  <header>
+    <%- include ("./partials/header.ejs") %>
+  </header>
+
   <body>
     <div class="container mx-auto my-4">
 
@@ -17,6 +22,7 @@
         <form action="/" method="post">
           <div id="input-styling-address">
             <input name="location" type="search" id="address" class="form-control" placeholder="Where are we going?" />
+            <input name="latlng" type="hidden" id="addressCoords" />
           </div>
           <p class="mt-4 text-xl">Selected: <strong id="address-value">none</strong></p>
           
@@ -33,8 +39,9 @@
             });
 
             let $address = document.querySelector('#address-value');
+            let $coords = document.querySelector('#addressCoords');
             placesAutocomplete.on('change', function(e) {
-              $address.textContent = e.suggestion.value
+              $coords.value = e.suggestion.latlng.lat.toString() + ', ' + e.suggestion.latlng.lng.toString();
             });
 
             placesAutocomplete.on('clear', function() {
@@ -44,18 +51,29 @@
         </script>
         </form>
       </fieldset>
+      
+      <script>
+        let skycons = new Skycons({"monochrome": false});
+        skycons.add("navicon", "showers-day");
+      </script>
          
+      <% if (error !== null) { %>
+        <p><%= error %></p>
+      <% } %>
+
+      <% if (weatherObject !== null) { %>
+          <% let currently = weatherObject.shift(); %>
       <div class="weather-container font-sans w-full max-w-5xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4">
         <div class="current-weather flex items-center justify-between px-6 py-4">
           <div class="flex items-center">
             <div>
-              <div class="text-6xl font-semibold">8°C</div>
-              <div>Feels like 2°C</div>
+              <div class="text-6xl font-semibold"><%= currently.temperature %></div>
+              <div>Feels like <%= currently.apparentTemperature %></div>
             </div>
           </div>
           <div class="mx-5">
-            <div class="font-semibold">Cloudy</div>
-            <div>Vancouver, Canada</div>
+            <div class="font-semibold"><%= currently.summary %></div>
+            <div>Current City</div>
           </div>
           <div>
             <canvas id="icon1" width="64" height="64"></canvas>
@@ -63,63 +81,33 @@
         </div> <!-- End of current weather -->
 
         <div class="future-weather text-sm bg-gray-600 px-6 py-8 overflow-hidden">
-          <div class="flex items-center">
-            <div class="w-1/6 text-lg text-gray-200">MON</div>
-            <div class="w-4/6 px-2 flex items-center"></div>
-              <div>
-                <canvas id="icon2" width="48" height="48"></canvas>
+          <% let index = 0; %>
+          <% weatherObject.forEach((object) => { %>
+            <div class="flex items-center">
+              <div class="w-1/6 text-xl text-gray-200"><%= object.time %></div>
+              <div class="w-4/6 px-4 text-base flex items-center justify-end">
+                <div>
+                  <canvas id="icon<%- index %>" width="36" length="36"></canvas>
+                  <script>
+                    skycons.add("icon<%- index %>", "<%- object.icon %>");
+                  </script>
+                </div>
+                <div class="ml-3"><%= object.summary %></div>
               </div>
-              <div class="ml-3">Cloudy with a chance of showers</div>
-            <div class="w-1/6">
-              <div>5°C</div>
-              <div>-2°C</div>
+              <div class="w-1/6 text-base flex">
+                <div class="text-blue-200 mx-3">Rain: <%= object.precipProbability %></div>
+              </div>
+              <div class="w-1/6 text-lg text-right">
+                <div><%= object.temperature %></div>
+                <div><%= object.apparentTemperature %></div>
+              </div>
             </div>
-          </div>
-
-          <div class="flex items-center mt-8">
-            <div class="w-1/6 text-lg text-gray-200">TUES</div>
-            <div class="w-4/6 px-2 flex items-center"></div>
-              <div>icon</div>
-              <div class="ml-3">Cloudy with a chance of showers</div>
-            <div class="w-1/6">
-              <div>5°C</div>
-              <div>-2°C</div>
-            </div>
-          </div>
-
-          <div class="flex items-center mt-8">
-            <div class="w-1/6 text-lg text-gray-200">WEDS</div>
-            <div class="w-4/6 px-2 flex items-center"></div>
-              <div>icon</div>
-              <div class="ml-3">Cloudy with a chance of showers</div>
-            <div class="w-1/6">
-              <div>5°C</div>
-              <div>-2°C</div>
-            </div>
-          </div>
-          
+            <% index++; %>
+        <% })} %>  
         </div>
       </div>
-          
-          <!--<div>
-            <% if (weatherObject !== null) { %>
-              <% weatherObject.forEach((object) => { %>
-                  <% Object.entries(object).forEach(([key, value]) => { %>
-                    <p class="text-white text-base "><%=value %></p>
-                    <% }); %>
-                    <% }); %>
-                    <% } %>
-                    <% if (error !== null) { %>
-                      <p><%= error %></p>
-                      <% } %>
-                    </div> -->
-        
-        <script>
-          let skycons = new Skycons({"monochrome": false});
-          skycons.add("icon1", Skycons.PARTLY_CLOUDY_DAY);
-          skycons.add("icon2", Skycons.RAIN);
-          skycons.play();
-        </script>
+
+      <script> skycons.play(); </script>
 
         <div class="px-6 py-4">
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#Dark Sky API</span>
@@ -128,6 +116,9 @@
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#Geoencoding API</span>
         </div>
     </div>
-
   </body>
+
+  <footer>
+    <%- include ("./partials/footer.ejs") %>
+  </footer>
 </html>
