@@ -15,21 +15,16 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', async function (req, res) {
-    let [lat, lng] = [49.2827, 123.1207]; // Location of Vancouver
-    let location = req.body.location;
+    let [lat, lng] = req.body.latlng.toString().split(',');
+    let location = req.body.location.toString().split(',');
     console.log(req.body);
+    console.log(location);
     //console.log(location);
-    let [city, country] = location.toString().split(',');
-    let urlMap = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${country}&key=${api[0]}`;
 
     try {
-        // Assume one city to be chosen for now
-        let responseGeo  = await axios.get(urlMap).then(response => {return response.data.results});
-        [lat, lng] = helper.getCoordinates(responseGeo);
-
         let urlDark = `https://api.darksky.net/forecast/${api[1]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
-        //console.log(weather);
+        console.log(weather);
         
         let format = 'hourly';
         //let weatherObject = helper.generateCurrentForecast(weather);

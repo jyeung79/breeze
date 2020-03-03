@@ -30,11 +30,12 @@ module.exports = {
             throw "Try again. Type in the city, country";
         } else {
             let hourlyWeather = object.hourly.data;
+            let timezone = object.timezone;
             let weatherData = [];
             hourlyWeather.forEach(object => {
                 object.temperature = Math.round(object.temperature);
                 object.apparentTemperature = Math.round(object.apparentTemperature);
-                object.time = new Date(object.time*1000).toLocaleTimeString([],{weekday:'short', hour:'2-digit', minute:'2-digit'});
+                object.time = new Date(object.time*1000).toLocaleString([], {weekday:'short', hour:'2-digit', minute:'2-digit', timezone:timezone});
                 object.precipProbability = Math.round(object.precipProbability*100) + '%';
                 object.temperature = object.temperature + ' C';
                 weatherData.push(unwrap(object));

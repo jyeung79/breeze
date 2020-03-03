@@ -24,7 +24,7 @@
             <input name="location" type="search" id="address" class="form-control" placeholder="Where are we going?" />
             <input name="latlng" type="hidden" id="addressCoords" />
           </div>
-          <p class="mt-4 text-xl">Selected: <strong id="address-value">none</strong></p>
+          <p class="mt-4 text-xl">Selected: <strong id="address-value"><%= location %></strong></p>
           
           <script>
             (function() {
@@ -41,7 +41,7 @@
             let $address = document.querySelector('#address-value');
             let $coords = document.querySelector('#addressCoords');
             placesAutocomplete.on('change', function(e) {
-              $coords.value = e.suggestion.latlng.lat.toString() + ', ' + e.suggestion.latlng.lng.toString();
+              $coords.value = e.suggestion.latlng.lat.toString() + ',' + e.suggestion.latlng.lng.toString();
             });
 
             placesAutocomplete.on('clear', function() {
@@ -71,9 +71,9 @@
               <div>Feels like <%= currently.apparentTemperature %></div>
             </div>
           </div>
-          <div class="mx-5">
+          <div class="mx-5 text-xl">
             <div class="font-semibold"><%= currently.summary %></div>
-            <div>Current City</div>
+            <div><%= location[0] %></div>
           </div>
           <div>
             <canvas id="icon1" width="64" height="64"></canvas>
