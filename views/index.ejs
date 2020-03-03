@@ -21,7 +21,7 @@
       <fieldset id='fieldForm'>
         <form action="/" method="post">
           <div id="input-styling-address">
-            <input name="location" type="search" id="address" class="form-control" placeholder="Where are we going?" />
+            <input name="location" type="search" id="address" class="form-control w-max-4xl" placeholder="Where are we going?" />
             <input name="latlng" type="hidden" id="addressCoords" />
           </div>
           <p class="mt-4 text-xl">Selected: <strong id="address-value"><%= location %></strong></p>
@@ -63,12 +63,17 @@
 
       <% if (weatherObject !== null) { %>
           <% let currently = weatherObject.shift(); %>
-      <div class="weather-container font-sans w-full max-w-5xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4">
+      <div class="weather-container font-sans w-full max-w-4xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4 mx-auto">
         <div class="current-weather flex items-center justify-between px-6 py-4">
           <div class="flex items-center">
             <div>
-              <div class="text-6xl font-semibold"><%= currently.temperature %></div>
-              <div>Feels like <%= currently.apparentTemperature %></div>
+              <% if (format !== "weekly") { %>
+                <div class="text-6xl font-semibold"><%= currently.temperature %></div>
+                <div>Feels like <%= currently.apparentTemperature %></div>
+              <% } else { %>
+                <div class="text-3xl font-semibold">High: <%= currently.temperatureMax %></div>
+                <div class="text-3xl font-semibold">Low: <%= currently.temperatureMin %></div>
+              <% } %>
             </div>
           </div>
           <div class="mx-5 text-xl">
@@ -76,30 +81,34 @@
             <div><%= location[0] %></div>
           </div>
           <div>
-            <canvas id="icon1" width="64" height="64"></canvas>
+            <canvas id="currenticon" width="72" height="72"></canvas>
+            <script> skycons.add("currenticon", "<%- currently.icon %>"); </script>
           </div>
         </div> <!-- End of current weather -->
 
         <div class="future-weather text-sm bg-gray-600 px-6 py-8 overflow-hidden">
           <% let index = 0; %>
           <% weatherObject.forEach((object) => { %>
-            <div class="flex items-center">
+            <div class="flex items-center justify-between px-2 h-32">
               <div class="w-1/6 text-xl text-gray-200"><%= object.time %></div>
-              <div class="w-4/6 px-4 text-base flex items-center justify-end">
-                <div>
-                  <canvas id="icon<%- index %>" width="36" length="36"></canvas>
-                  <script>
-                    skycons.add("icon<%- index %>", "<%- object.icon %>");
-                  </script>
+              <div class="w-3/6 px-4 text-xl flex justify-end">
+                <div class="h-auto w-auto p-2 flex items-start">
+                  <canvas id="icon<%- index %>" width="64" length="64"></canvas>
+                  <script> skycons.add("icon<%- index %>", "<%- object.icon %>"); </script>
                 </div>
-                <div class="ml-3"><%= object.summary %></div>
               </div>
-              <div class="w-1/6 text-base flex">
+              <div class="w-2/6 px-2 text-lg flex items-center justify-between">
+                <div class="text-base"><%= object.summary %></div>
                 <div class="text-blue-200 mx-3">Rain: <%= object.precipProbability %></div>
               </div>
               <div class="w-1/6 text-lg text-right">
-                <div><%= object.temperature %></div>
-                <div><%= object.apparentTemperature %></div>
+                <% if (format !== "weekly") { %>
+                  <div><%= object.temperature %></div>
+                  <div>Feels like <%= object.apparentTemperature %></div>
+                <% } else { %>
+                  <div>High: <%= object.temperatureMax %></div>
+                  <div>Low: <%= object.temperatureMin %></div>
+                <% } %>
               </div>
             </div>
             <% index++; %>

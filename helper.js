@@ -50,12 +50,13 @@ module.exports = {
             throw "Try again. Type in the city, country";
         } else {
             let weeklyWeather = object.daily.data;
+            let timezone = object.timezone;
             let weatherData = [];
             weeklyWeather.forEach(object => {
-                object.time = new Date(object.time*1000).toDateString();
+                object.temperatureMin = Math.round(object.temperatureMin) + ' C';
+                object.temperatureMax = Math.round(object.temperatureMax) + ' C';
+                object.time = moment(object.time*1000).tz(timezone).format("ddd, MMM D");
                 object.precipProbability = Math.round(object.precipProbability*100) + '%';
-                object.temperatureMin = object.temperatureMin + ' C';
-                object.temperatureMax = object.temperatureMax + ' C';
                 weatherData.push(unwrapWeekly(object));
             });
             //console.log(weatherData);

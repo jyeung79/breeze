@@ -26,15 +26,15 @@ app.post('/', async function (req, res) {
         let weather = await axios.get(urlDark).then(response => {return response.data});
         console.log(weather);
         
-        let format = 'hourly';
+        let format = 'weekly';
         //let weatherObject = helper.generateCurrentForecast(weather);
-        let weatherObject = helper.generateHourlyForecast(weather);
-        //let weatherObject = helper.generateWeeklyForecast(weather);
+        //let weatherObject = helper.generateHourlyForecast(weather);
+        let weatherObject = helper.generateWeeklyForecast(weather);
 
         if (weather == undefined){
             res.render('index', {weatherObject: null, error: 'Error. Type in City, Country format.', format: null, location:null});
         } else {
-            res.render('index', {weatherObject: weatherObject, error: null, format: null, location:location});
+            res.render('index', {weatherObject: weatherObject, error: null, format: format, location:location});
         }
     } catch (err) {
         res.render('index', {weatherObject: null, error: err, format: null, location: null});
