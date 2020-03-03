@@ -35,7 +35,7 @@ module.exports = {
             hourlyWeather.forEach(object => {
                 object.temperature = Math.round(object.temperature);
                 object.apparentTemperature = Math.round(object.apparentTemperature);
-                object.time = new Date(object.time*1000).toLocaleString([], {weekday:'short', hour:'2-digit', minute:'2-digit', timezone:timezone});
+                object.time = moment(object.time*1000).tz(timezone).format("ddd, hA");
                 object.precipProbability = Math.round(object.precipProbability*100) + '%';
                 object.temperature = object.temperature + ' C';
                 weatherData.push(unwrap(object));
@@ -74,6 +74,8 @@ module.exports = {
 
 }
 //Private variables and functions not accessible
+let moment = require('moment-timezone');
+
 // function to unwrap desired key value pairs
 let unwrap = (
     {temperature, apparentTemperature, time, summary, precipProbability, icon}) => (

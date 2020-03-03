@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
-const api = ['AIzaSyCNgF420mDNKUhQleg2dmAbATUdXZGe7LU','57a5af899175dbb182ece9faeebfe2c0'];
+const api = ['57a5af899175dbb182ece9faeebfe2c0'];
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -22,7 +22,7 @@ app.post('/', async function (req, res) {
     //console.log(location);
 
     try {
-        let urlDark = `https://api.darksky.net/forecast/${api[1]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
+        let urlDark = `https://api.darksky.net/forecast/${api[0]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
         console.log(weather);
         
