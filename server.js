@@ -17,19 +17,24 @@ app.get('/', function (req, res) {
 app.post('/', async function (req, res) {
     let [lat, lng] = req.body.latlng.toString().split(',');
     let location = req.body.location.toString().split(',');
+    let format = req.body.forecast;
+    
     console.log(req.body);
-    console.log(location);
-    //console.log(location);
-
+    
     try {
         let urlDark = `https://api.darksky.net/forecast/${api[0]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
-        console.log(weather);
-        
-        let format = 'weekly';
-        //let weatherObject = helper.generateCurrentForecast(weather);
-        //let weatherObject = helper.generateHourlyForecast(weather);
-        let weatherObject = helper.generateWeeklyForecast(weather);
+        //console.log(weather);
+        let weatherObject = [];
+        console.log(format);
+
+        if (format === "weekly") {
+            weatherObject = helper.generateWeeklyForecast(weather);
+        } else if (format == "daily") {
+            weatherObject = helper.generateHourlyForecast(weather);
+        } else {
+            weatherObject = helper.generateCurrentForecast(weather);
+        }
 
         if (weather == undefined){
             res.render('index', {weatherObject: null, error: 'Error. Type in City, Country format.', format: null, location:null});

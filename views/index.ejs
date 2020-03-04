@@ -23,9 +23,19 @@
           <div id="input-styling-address">
             <input name="location" type="search" id="address" class="form-control w-max-4xl" placeholder="Where are we going?" />
             <input name="latlng" type="hidden" id="addressCoords" />
+            <input name="forecast" type="hidden" id="forecastFormat" />
           </div>
-          <p class="mt-4 text-xl">Selected: <strong id="address-value"><%= location %></strong></p>
-          
+          <div class="flex justify-between">
+            <p class="mt-4 text-xl">Selected: <strong id="address-value"><%= location %></strong></p>
+            <div class="inline-flex mt-2">
+              <button type="button" id="hours" class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                48-hrs
+              </button>
+              <button type="button" id="week" class="bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Week
+              </button>
+            </div>
+          </div>
           <script>
             (function() {
               var placesAutocomplete = places({
@@ -38,8 +48,8 @@
               language: 'en',
             });
 
-            let $address = document.querySelector('#address-value');
-            let $coords = document.querySelector('#addressCoords');
+            const $address = document.querySelector('#address-value');
+            const $coords = document.querySelector('#addressCoords');
             placesAutocomplete.on('change', function(e) {
               $coords.value = e.suggestion.latlng.lat.toString() + ',' + e.suggestion.latlng.lng.toString();
             });
@@ -47,6 +57,18 @@
             placesAutocomplete.on('clear', function() {
               $address.textContent = 'none';
             });
+
+            const $forecast = document.querySelector('#forecastFormat');
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach((btn) => {
+              btn.addEventListener('click', (e) => {
+              if (btn.id === 'week') {
+                $forecast.value = 'weekly';
+              } else {
+                $forecast.value = 'daily';
+              }
+            })})
+
           })();
         </script>
         </form>
