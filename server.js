@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 app.post('/', async function (req, res) {
     let [lat, lng] = req.body.latlng.toString().split(',');
     let location = req.body.location.toString().split(',');
-    let format = req.body.forecast;
+    let format = req.body.forecast === '' ? 'daily' : req.body.forecast;
     
     console.log(req.body);
     

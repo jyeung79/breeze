@@ -33,11 +33,10 @@ module.exports = {
             let timezone = object.timezone;
             let weatherData = [];
             hourlyWeather.forEach(object => {
-                object.temperature = Math.round(object.temperature);
-                object.apparentTemperature = Math.round(object.apparentTemperature);
+                object.temperature = Math.round(object.temperature) + ' C' ;
+                object.apparentTemperature = Math.round(object.apparentTemperature) + ' C';
                 object.time = moment(object.time*1000).tz(timezone).format("ddd, hA");
                 object.precipProbability = Math.round(object.precipProbability*100) + '%';
-                object.temperature = object.temperature + ' C';
                 weatherData.push(unwrap(object));
             });
             //console.log(weatherData);
@@ -71,8 +70,6 @@ module.exports = {
             let currentWeather = object.currently;
         }
     },
-    // Generate 
-
 }
 //Private variables and functions not accessible
 let moment = require('moment-timezone');

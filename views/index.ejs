@@ -28,11 +28,12 @@
           <div class="flex justify-between">
             <p class="mt-4 text-xl">Selected: <strong id="address-value"><%= location %></strong></p>
             <div class="inline-flex mt-2">
+              <!-- TODO Add a way to keep the format clicked from previously-->
               <button type="button" id="hours" class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                 48-hrs
               </button>
               <button type="button" id="week" class="bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-                Week
+                7-days
               </button>
             </div>
           </div>
@@ -64,9 +65,15 @@
               btn.addEventListener('click', (e) => {
               if (btn.id === 'week') {
                 $forecast.value = 'weekly';
+                document.getElementById("week").className = 'bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-r cursor-not-allowed';
+                document.getElementById("hours").className = 'bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-l';
+
               } else {
                 $forecast.value = 'daily';
+                document.getElementById("week").className = 'bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-r';
+                document.getElementById("hours").className = 'bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l" cursor-not-allowed';
               }
+
             })})
 
           })();
@@ -141,10 +148,8 @@
       <script> skycons.play(); </script>
 
         <div class="px-6 py-4">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#Dark Sky API</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#Algolia place</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#Google</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#Geoencoding API</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"><a class="text-blue-500 font-semibold text-sm" href="https://darksky.net/dev">#Powered by Dark Sky</a></span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"><a class="text-blue-500 font-semibold text-sm" href="https://community.algolia.com/places/">#Algolia Places</a></span>
         </div>
     </div>
   </body>
