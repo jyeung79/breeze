@@ -3,8 +3,9 @@ const helper = require('./helper');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv').config();
 
-const api = ['57a5af899175dbb182ece9faeebfe2c0'];
+const api = process.env.DARK_SKY_API_KEY;
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -22,7 +23,7 @@ app.post('/', async function (req, res) {
     console.log(req.body);
     
     try {
-        let urlDark = `https://api.darksky.net/forecast/${api[0]}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
+        let urlDark = `https://api.darksky.net/forecast/${api}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
         //console.log(weather);
         let weatherObject = [];
