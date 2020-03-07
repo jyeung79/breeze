@@ -6,6 +6,7 @@ const app = express();
 const dotenv = require('dotenv').config();
 
 const api = process.env.DARK_SKY_API_KEY;
+let port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -48,6 +49,6 @@ app.post('/', async function (req, res) {
 })
 
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log('Example app listening on port 3000!');
 })
