@@ -2,9 +2,9 @@ const axios = require('axios');
 const helper = require('./helper');
 const bodyParser = require('body-parser');
 const express = require('express');
-const app = express();
 const dotenv = require('dotenv').config();
 
+const app = express();
 const api = process.env.DARK_SKY_API_KEY;
 let port = process.env.PORT || 3000;
 
@@ -21,14 +21,14 @@ app.post('/', async function (req, res) {
     let location = req.body.location.toString().split(',');
     let format = req.body.forecast === '' ? 'daily' : req.body.forecast;
     
-    console.log(req.body);
+    //console.log(req.body);
     
     try {
         let urlDark = `https://api.darksky.net/forecast/${api}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
         //console.log(weather);
         let weatherObject = [];
-        console.log(format);
+        //console.log(format);
 
         if (format === "weekly") {
             weatherObject = helper.generateWeeklyForecast(weather);

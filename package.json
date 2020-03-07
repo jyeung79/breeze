@@ -4,7 +4,7 @@
   "description": "Weather app provides historical data and forecasting",
   "main": "index.js",
   "scripts": {
-    "build": "(npx tailwindcss build ./public/css/tailwind.css -c ./tailwind.js -o ./public/css/styles.css) & node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,6 @@
     "places.js": "^1.18.1",
     "postcss-import": "^12.0.1",
     "tailwindcss": "^1.2.0"
-  }
+  },
+  "devDependencies": {}
 }
