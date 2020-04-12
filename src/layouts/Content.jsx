@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AlgoliaPlaces from 'algolia-places-react';
+
+import Weather from '../components/Weather';
+import Skycons from '../utils/skycons-master/skycons';
 
 import '../static/css/reset.css';
 import '../static/css/styles.css';
 import '../static/css/ap-dropdown.css';
-import Skycons from '../utils/skycons-master/skycons';
 
 const Content = () => {
+    const [location, setLocation] = useState('Vancouver');
+    const [lat, setLat] = useState(49.2827);
+    const [lng, setLng] = useState(123.1207);
+
     useEffect(() => {
         let skycons = new Skycons({"monochrome": false});
         skycons.add("navicon", "showers-day");
@@ -27,35 +33,39 @@ const Content = () => {
                     type: 'city'
                     // Other options from https://community.algolia.com/places/documentation.html#options
                 }}
-                onChange={({ query, rawAnswer, suggestion, suggestionIndex }) => {
-                    console.log('Fired when suggestion selected in the dropdown or hint was validated.');
+                onChange={({ suggestion}) => {
+                    console.log("suggestion", suggestion);
+                    setLocation(suggestion.name);
+                    setLat(suggestion.latlng.lat);
+                    setLng(suggestion.latlng.lng);
                 }}
                 onError={({ message }) =>
                     console.log(
                         'Fired when we could not make the request to Algolia Places servers for any reason but reaching your rate limit.'
                     )}
             />
-            <div class="flex justify-between">
-                <p class="mt-4 text-xl">
-                    Selected: <strong id="address-value">Location</strong>
+            <div className="flex justify-between">
+                <p className="mt-4 text-xl">
+                    Selected: <strong id="address-value">{location}</strong>
                 </p>
-                <div class="inline-flex mt-2">
+                <div className="inline-flex mt-2">
                     <button
                         type="button"
                         id="hours"
-                        class="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                        className="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-l"
                     >
                         48-hrs
                     </button>
                     <button
                         type="button"
                         id="week"
-                        class="bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                        className="bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-r"
                     >
                         7-days
                     </button>
                 </div>
             </div>
+            <Weather lat={lat} lng={lng} />
         </>
     );
 }

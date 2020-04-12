@@ -8,7 +8,7 @@ export const App = () => (
   // explicit vs implicit return
   <BrowserRouter>
   <Layout children ={
-    <div class="container mx-auto my-4">
+    <div className="container mx-auto my-4">
       <Content />
     </div>
   } />

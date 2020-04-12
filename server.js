@@ -8,7 +8,6 @@ const app = express();
 const api = process.env.DARK_SKY_API_KEY;
 let port = process.env.PORT || 3000;
 
-app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
