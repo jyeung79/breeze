@@ -6,11 +6,19 @@ import '../static/css/styles.css';
 
 
 const Weather = ({ lat, lng }) => {
-    //let darkAPI = `https://api.darksky.net/forecast/${api}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
-    //let weather = await axios.get(urlDark).then(response => {return response.data});
+    let darkAPI = `https://api.darksky.net/forecast/${process.env.DARK_SKY_API_KEY}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
+    
+    const weatherData = async(url) => {
+        let result = await axios.get(url).then(response => {return response.data});
+        return result;
+    }
 
+    let data = weatherData(darkAPI);
+    console.log(data);
     return (
-        <p>Lat:{lat} and Lng:{lng}</p>
+        <div>
+            <p>Lat:{lat} and Lng:{lng}</p>
+        </div>
     );
 };
 
