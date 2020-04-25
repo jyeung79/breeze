@@ -2,13 +2,23 @@ const axios = require('axios');
 const helper = require('./helper');
 const bodyParser = require('body-parser');
 const express = require('express');
+const path = require('path');
 const dotenv = require('dotenv').config();
 
 const app = express();
-const api = process.env.DARK_SKY_API_KEY;
-let port = process.env.PORT || 3000;
+//const api = process.env.DARK_SKY_API_KEY;
+//let port = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.use(express.static('public'));
+app.get('/ping', function (req, res) {
+    return res.send('pong');
+});
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+/*
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function (req, res) {
@@ -16,12 +26,6 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', async function (req, res) {
-    let [lat, lng] = req.body.latlng.toString().split(',');
-    let location = req.body.location.toString().split(',');
-    let format = req.body.forecast === '' ? 'daily' : req.body.forecast;
-    
-    //console.log(req.body);
-    
     try {
         let urlDark = `https://api.darksky.net/forecast/${api}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
         let weather = await axios.get(urlDark).then(response => {return response.data});
@@ -51,3 +55,4 @@ app.post('/', async function (req, res) {
 app.listen(port, function () {
     console.log('Example app listening on port 3000!');
 })
+*/

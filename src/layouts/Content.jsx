@@ -13,6 +13,7 @@ const Content = () => {
     const [lat, setLat] = useState(49.2827);
     const [lng, setLng] = useState(123.1207);
 
+    // This runs once on app startup
     useEffect(() => {
         let skycons = new Skycons({"monochrome": false});
         skycons.add("navicon", "showers-day");
@@ -35,7 +36,7 @@ const Content = () => {
                 }}
                 onChange={({ suggestion}) => {
                     console.log("suggestion", suggestion);
-                    setLocation(suggestion.name);
+                    setLocation(suggestion.value);
                     setLat(suggestion.latlng.lat);
                     setLng(suggestion.latlng.lng);
                 }}
