@@ -11,7 +11,7 @@ const Weather = ({ lat, lng }) => {
     const [weather, setWeather] = useState([]);
     
     useEffect(() => {
-        fetch(`https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_API}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`)
+        fetch('/search-location-weather')
             .then(res => res.json())
             .then(
                 (result) => {

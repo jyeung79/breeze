@@ -1,16 +1,16 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout';
+import { Route, Switch } from 'react-router-dom';
 
-import Content from './layouts/Content';
+import Examples from './pages/Examples';
+import About from './pages/About';
+import Content from './pages/Content';
 
-export const App = () => (
-  // explicit vs implicit return
-  <BrowserRouter>
-  <Layout children ={
-    <div className="container mx-auto my-4">
-      <Content />
-    </div>
-  } />
-  </BrowserRouter>
-);
+export default function App() {
+  return (
+    <Switch>
+      <Route exact path="/" component={Content} />
+      <Route path="/about" component={About} />
+      <Route path="/examples" component={Examples} />
+    </Switch>
+  )
+}
