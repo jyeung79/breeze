@@ -1,23 +1,21 @@
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const express = require('express');
-const dotenv = require('dotenv').config();
-const cors = require('cors');
 
 const app = express();
-const helper = require('./helper');
+//const helper = require('./helper');
+const port = process.env.PORT || 5000;
+//const router = express.Router();
+const logger = require('./middleware/logger');
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.json());
-app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+//app.use(cors());
+app.use('/api/members', require('./routes/api/Members'));
 
-require('./routes')(app);
-
-app.get('/', function (req, res) {
-    res.send('PORT 3000');
-})
+app.use(logger);
 
 app.listen(port, (err) => {
     if (err) { console.log(err) };
     console.log('Listening on port ' + port);
-})
+});

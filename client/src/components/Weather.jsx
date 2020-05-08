@@ -4,25 +4,25 @@ import axios from 'axios';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
 
-
 const Weather = ({ lat, lng }) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [weather, setWeather] = useState([]);
     
     useEffect(() => {
-        fetch('/search-location-weather')
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setWeather(result.weather);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+        fetch('/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat, lng }),
+        }).then(res => res.json()).then((result) => {
+                setIsLoaded(true);
+                setWeather(result.weather);
+            },
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+            }
+        )
     }, [lat, lng])
 
     
