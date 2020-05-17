@@ -5,37 +5,28 @@ import '../static/css/reset.css';
 import '../static/css/styles.css';
 
 const Weather = ({ lat, lng }) => {
-    const [error, setError] = useState(null);
+    const [error, setErrors] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [weather, setWeather] = useState([]);
     
     useEffect(() => {
-        fetch('/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ lat, lng }),
-        }).then(res => res.json()).then((result) => {
-                setIsLoaded(true);
-                setWeather(result.weather);
-            },
-            (error) => {
-                setIsLoaded(true);
-                setError(error);
-            }
-        )
-    }, [lat, lng])
+        getWeather(lat, lng);
+    }, [lat, lng]);
 
-    
-    //let darkAPI = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_API}/${lat},${lng}?exclude=minutely,alerts,flags&units=ca`;
-    
-    /*const weatherData = async(url) => {
-        let result = await axios.get(url).then(response => {return response.data});
-        return result;
-    }
-    
-    let data = weatherData(darkAPI);
-    console.log(data); */
-    console.log(weather);
+    async function getWeather(lat, lng) {
+        console.log(lat, lng);
+        if (lat !== undefined && lng !== undefined) {
+            let url = `http://localhost:5000/search?lat=${lat}&lng=${lng}`;
+            const response = await axios.get(url)
+                .then(res => res.data)
+                .then(res => res.currently)
+                .catch(err => setErrors(err));
+            console.log(response);
+
+            let data = Object.entries(response);
+            console.log(data);
+        }
+    };
 
     if (error) {
         return <div>Error: {error.message}</div>;

@@ -11,8 +11,7 @@ import Layout from '../components/Layout';
 
 const Content = () => {
     const [location, setLocation] = useState('Vancouver');
-    const [lat, setLat] = useState(49.2827);
-    const [lng, setLng] = useState(123.1207);
+    const [latLng, setLatLng] = useState([49.2827, -123.1207]);
 
     // The second param is an array of variables the component will check to make sure its changed
     // before re-rendering
@@ -32,9 +31,8 @@ const Content = () => {
                     }}
                     onChange={({ suggestion}) => {
                         console.log("suggestion", suggestion);
-                        setLocation(suggestion.value);
-                        setLat(suggestion.latlng.lat);
-                        setLng(suggestion.latlng.lng);
+                        setLocation(suggestion.name);
+                        setLatLng([suggestion.latlng.lat, suggestion.latlng.lng]);
                     }}
                     onError={({ message }) =>
                         console.log(
@@ -62,7 +60,7 @@ const Content = () => {
                         </button>
                     </div>
                 </div>
-                <Weather lat={lat} lng={lng} />
+                <Weather lat={latLng[0]} lng={latLng[1]} />
             </>
         } />    
     );
