@@ -60,7 +60,7 @@ const Content = () => {
                         </button>
                     </div>
                 </div>
-                <Weather lat={latLng[0]} lng={latLng[1]} />
+                <Weather location={location} lat={latLng[0]} lng={latLng[1]} />
             </>
         } />    
     );
