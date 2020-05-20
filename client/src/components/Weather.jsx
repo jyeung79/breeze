@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import SkyCons from '../utils/skycons-master/skycons';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
 
@@ -11,7 +12,11 @@ const Weather = ({ location, lat, lng }) => {
     
     useEffect(() => {
         getWeather(lat, lng);
-    }, [lat, lng]);
+        let skycons = new SkyCons({"monochrome": false});
+        skycons.add("currenticon", `${weather.icon !== undefined ? weather.icon : 'rain'}`);
+        console.log(`icon is ${weather.icon !== undefined ? weather.icon : 'rain'}`);
+        skycons.play();
+    }, [isLoaded, lat, lng]);
 
     async function getWeather(lat, lng) {
         console.log(lat, lng);
@@ -30,13 +35,21 @@ const Weather = ({ location, lat, lng }) => {
                 .reduce((obj, entry) => {
                     obj[entry] = response[entry];
                     return obj;
-                }, {});
+            }, {});
 
             console.log("filtered :", filtered);
             setWeather(filtered);
             setIsLoaded(true);
         }
     };
+
+    /*
+    useEffect(() => {
+        let skycons = new SkyCons({"monochrome": false});
+        skycons.add("current", "rain");
+        console.log(`${weather.icon}`);
+        skycons.play();
+    }, [weather])*/
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -45,12 +58,12 @@ const Weather = ({ location, lat, lng }) => {
     } else {
         return (
             <div>
-                <div className="font-sans w-full max-w-4xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4 mx-auto">
+                <div className="font-sans w-full max-w-6xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4 mx-auto">
                     <div className="current-weather flex items-center justify-between px-6 py-4">
                         <div className="flex items-center">
                             <div>
-                                <div className="text-6xl font-semibold">{weather.temperature}</div>
-                                <div className="text-3xl font-semibold">Feels Like: {weather.apparentTemperature} </div>
+                                <div className="text-6xl font-semibold">{weather.temperature} C°</div>
+                                <div className="text-3xl font-semibold">Feels Like: {weather.apparentTemperature} C°</div>
                             </div>
                         </div>
                         <div className="mx-5 text-xl">
@@ -59,7 +72,6 @@ const Weather = ({ location, lat, lng }) => {
                         </div>
                         <div>
                             <canvas id="currenticon" width="72" height="72"></canvas>
-                            {/*<script> skycons.add("currenticon", `${weather.icon}`);</script>*/}
                         </div>
                     </div>
                 </div>
