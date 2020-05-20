@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import SkyCons from '../utils/skycons-master/skycons';
+import Forecast from './Forecast';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
 
@@ -9,47 +10,48 @@ const Weather = ({ location, lat, lng }) => {
     const [error, setErrors] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [weather, setWeather] = useState([]);
+    const [timezone, setTimeZone] = useState('America/Vancouver');
+    
+    const conditions = ['time', 'summary', 'icon', 'precipProbability', 'temperature', 'apparentTemperature'];
     
     useEffect(() => {
         getWeather(lat, lng);
         let skycons = new SkyCons({"monochrome": false});
         skycons.add("currenticon", `${weather.icon !== undefined ? weather.icon : 'rain'}`);
-        console.log(`icon is ${weather.icon !== undefined ? weather.icon : 'rain'}`);
         skycons.play();
     }, [isLoaded, lat, lng]);
+    
+    function filter(response) {
+        return Object.keys(response)
+        .filter(key => conditions.includes(key))
+        .reduce((obj, entry) => {
+            obj[entry] = response[entry];
+            return obj;
+    }, {})};
 
     async function getWeather(lat, lng) {
         console.log(lat, lng);
         if (lat !== undefined && lng !== undefined) {
             let url = `http://localhost:5000/search?lat=${lat}&lng=${lng}`;
-            const response = await axios.get(url)
-                .then(res => res.data)
-                .then(res => res.currently)
-                .catch(err => setErrors(err));
-            console.log(response);
-
-            const conditions = ['time', 'summary', 'icon', 'precipProbability', 'temperature', 'apparentTemperature'];
+            let forecastType = 'hourly';
             
-            const filtered = Object.keys(response)
-                .filter(key => conditions.includes(key))
-                .reduce((obj, entry) => {
-                    obj[entry] = response[entry];
-                    return obj;
-            }, {});
+            const response = await axios.get(url)
+            .then(res => res.data)
+            .catch(err => setErrors(err));
+            console.log(response);
+            
+            const weatherData = forecastType === 'hourly' ? response.hourly : response.daily;
+            let filtered =[];
+            filtered = weatherData.data.map(entry => filter(entry));
 
-            console.log("filtered :", filtered);
+            console.log("filter :", filtered);
+
+            setTimeZone(response.timezone);
+            console.log(timezone);
             setWeather(filtered);
             setIsLoaded(true);
         }
     };
-
-    /*
-    useEffect(() => {
-        let skycons = new SkyCons({"monochrome": false});
-        skycons.add("current", "rain");
-        console.log(`${weather.icon}`);
-        skycons.play();
-    }, [weather])*/
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -62,19 +64,20 @@ const Weather = ({ location, lat, lng }) => {
                     <div className="current-weather flex items-center justify-between px-6 py-4">
                         <div className="flex items-center">
                             <div>
-                                <div className="text-6xl font-semibold">{weather.temperature} C°</div>
-                                <div className="text-3xl font-semibold">Feels Like: {weather.apparentTemperature} C°</div>
+                                <div className="text-6xl font-semibold">{Math.round(weather[0].temperature)} C°</div>
+                                <div className="text-3xl font-semibold">Feels Like: {Math.round(weather[0].apparentTemperature)} C°</div>
                             </div>
                         </div>
                         <div className="mx-5 text-xl">
-                            <div className="font-semibold">{weather.summary}</div>
+                            <div className="font-semibold">{weather[0].summary}</div>
                             <div>{location}</div>
                         </div>
                         <div>
-                            <canvas id="currenticon" width="72" height="72"></canvas>
+                            <canvas id="currenticon" width="100" height="100"></canvas>
                         </div>
                     </div>
                 </div>
+                <Forecast forecast={weather} timezone={timezone} />
             </div>
         );
     }
