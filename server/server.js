@@ -34,6 +34,6 @@ app.get('/search', async function(req, res) {
             res.send(err);
         }
     } else {
-        res.send('hi');
+        res.send('Does not exist');
     }
 });
