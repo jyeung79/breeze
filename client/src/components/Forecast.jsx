@@ -4,24 +4,27 @@ import moment from 'moment-timezone';
 import SkyCons from '../utils/skycons-master/skycons';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
+import './weatherIcon.css';
 
 const hourlyWeather = (props, index, timezone) => {
     return (
-        <div className="flex items-center justify-between px-2 h-32 text-white">
-              <div className="w-1/6 text-xl text-gray-200">{moment(props.time*1000).tz(timezone).format("ddd, hA")}</div>
-              <div className="w-3/6 px-4 text-xl flex justify-center">
-                <div className="h-full w-full p-2">
-                    <canvas id={index} width="150" length="150"></canvas>
+        <div key={`item-${index}`}>
+            <div className="flex items-center justify-between px-2 h-32 text-white">
+                <div className="w-1/6 text-xl text-gray-200">{moment(props.time*1000).tz(timezone).format("ddd, hA")}</div>
+                <div className="w-4/6 px-4 text-xl flex items-center justify-between">
+                    <div className="text-lg mx-24">{props.summary}</div>
+                    <div className="h-full p-2 mr-24">
+                        <canvas className="weatherIcon" id={index} width="150" length="150"></canvas>
+                    </div>
                 </div>
-              </div>
-              <div className="w-2/6 px-2 text-lg flex items-center justify-between">
-                <div className="text-lg">{props.summary}</div>
-                <div className="text-blue-200 mx-3">Rain: {Math.round(props.precipProbability*100)}%</div>
-              </div>
-              <div className="w-1/6 text-lg text-right">
-                  <div>High: {Math.round(props.temperature)} C°</div>
-                  <div>Low: {Math.round(props.apparentTemperature)} C°</div>
-              </div>
+                <div className="w-1/6 px-2 text-lg">
+                    <div className="text-blue-200 mx-3">Rain: {Math.round(props.precipProbability*100)}%</div>
+                </div>
+                <div className="w-1/6 text-lg text-right">
+                    <div>High: {Math.round(props.temperature)} C°</div>
+                    <div>Low: {Math.round(props.apparentTemperature)} C°</div>
+                </div>
+            </div>
         </div>
     );
 }
@@ -38,7 +41,7 @@ const Forecast = (props) => {
     }, [first]);
 
     return (
-        <div className="text-sm bg-gray-600 px-6 py-8 overflow-hidden rounded-lg">
+        <div className="max-w-6xl text-sm bg-gray-600 px-6 py-8 overflow-hidden rounded-lg mx-auto">
             {first}
         </div>
         

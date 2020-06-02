@@ -16,12 +16,9 @@ const Weather = ({ location, lat, lng }) => {
     
     useEffect(() => {
         getWeather(lat, lng);
-        let skycons = new SkyCons({"monochrome": false});
-        skycons.add("currenticon", `${weather.icon !== undefined ? weather.icon : 'rain'}`);
-        skycons.play();
     }, [isLoaded, lat, lng]);
     
-    function filter(response) {
+    function filter(response, index) {
         return Object.keys(response)
         .filter(key => conditions.includes(key))
         .reduce((obj, entry) => {
@@ -42,12 +39,16 @@ const Weather = ({ location, lat, lng }) => {
             
             const weatherData = forecastType === 'hourly' ? response.hourly : response.daily;
             let filtered =[];
-            filtered = weatherData.data.map(entry => filter(entry));
+            filtered = weatherData.data.map((entry, index) => filter(entry, index));
+            console.log(filtered);
 
-            console.log("filter :", filtered);
+            //console.log("filter :", filtered);
+            
+            let skycons = new SkyCons({"monochrome": false});
+            skycons.add("currenticon", `${filtered[0].icon}`);
+            skycons.play();
 
             setTimeZone(response.timezone);
-            console.log(timezone);
             setWeather(filtered);
             setIsLoaded(true);
         }
@@ -59,7 +60,7 @@ const Weather = ({ location, lat, lng }) => {
         return <div>Loading...</div>
     } else {
         return (
-            <div>
+            <div id="currentWeather">
                 <div className="font-sans w-full max-w-6xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4 mx-auto">
                     <div className="current-weather flex items-center justify-between px-6 py-4">
                         <div className="flex items-center">
@@ -70,7 +71,7 @@ const Weather = ({ location, lat, lng }) => {
                         </div>
                         <div className="mx-5 text-xl">
                             <div className="font-semibold">{weather[0].summary}</div>
-                            <div>{location}</div>
+                            <div>{location.split(',')[0]}</div>
                         </div>
                         <div>
                             <canvas id="currenticon" width="100" height="100"></canvas>
