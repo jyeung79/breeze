@@ -10,9 +10,10 @@ const Weather = ({ location, lat, lng }) => {
     const [error, setErrors] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [weather, setWeather] = useState([]);
+    const [forecast, setForecast] = useState('hourly');
     const [timezone, setTimeZone] = useState('America/Vancouver');
     
-    const conditions = ['time', 'summary', 'icon', 'precipProbability', 'temperature', 'apparentTemperature'];
+    const conditions = ['time', 'summary', 'icon', 'precipProbability'] + (forecast === 'hourly' ? ['temperature', 'apparentTemperature'] : ['temperatureHigh', 'temperatureMin']);
     
     useEffect(() => {
         getWeather(lat, lng);
@@ -30,14 +31,14 @@ const Weather = ({ location, lat, lng }) => {
         console.log(lat, lng);
         if (lat !== undefined && lng !== undefined) {
             let url = `http://localhost:5000/search?lat=${lat}&lng=${lng}`;
-            let forecastType = 'hourly';
-            
+            //setForecast('daily');
+
             const response = await axios.get(url)
             .then(res => res.data)
             .catch(err => setErrors(err));
             console.log(response);
             
-            const weatherData = forecastType === 'hourly' ? response.hourly : response.daily;
+            const weatherData = forecast === 'hourly' ? response.hourly : response.daily;
             let filtered =[];
             filtered = weatherData.data.map((entry, index) => filter(entry, index));
             console.log(filtered);

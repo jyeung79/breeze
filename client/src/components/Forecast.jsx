@@ -27,22 +27,24 @@ const hourlyWeather = (props, index, timezone) => {
             </div>
         </div>
     );
-}
+};
 
 
 const Forecast = (props) => {
     console.log(props.timezone);
-    let first = props.forecast.map((hour, index) => index !== 0 ? hourlyWeather(hour, index, props.timezone) : '');
+    let hourly = props.forecast.map((hour, index) => index !== 0 ? hourlyWeather(hour, index, props.timezone) : '');
+    let daily = "";
 
     useEffect(() => {
         let skycons = new SkyCons({"monochrome": false});
         props.forecast.forEach((entry, index) => skycons.add(`${index}`, `${entry.icon}`));
         skycons.play();
-    }, [first]);
+    }, [hourly, daily]);
 
     return (
         <div className="max-w-6xl text-sm bg-gray-600 px-6 py-8 overflow-hidden rounded-lg mx-auto">
-            {first}
+            {hourly}
+            {daily}
         </div>
         
     );

@@ -19,8 +19,10 @@ const initialState = {
 function reducer(state, action) {
     switch (action.type) {
         case 'focusChange':
+            console.log({...state, focusedInput: action.payload});
             return {...state, focusedInput: action.payload};
         case 'dateChange':
+            console.log(action.payload);
             return action.payload;
         default:
             throw new Error();
