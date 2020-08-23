@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { useSelector } from 'react-redux';
+
 import SkyCons from '../utils/skycons-master/skycons';
 import Forecast from './Forecast';
 import '../static/css/reset.css';
@@ -15,6 +17,9 @@ const Weather = ({ location, lat, lng }) => {
     
     const conditions = ['time', 'summary', 'icon', 'precipProbability'] + (forecast === 'hourly' ? ['temperature', 'apparentTemperature'] : ['temperatureHigh', 'temperatureMin']);
     
+    const date = useSelector(state => state.dateReducer);
+    const locationRedux = useSelector(state => state.locationReducer);
+
     useEffect(() => {
         getWeather(lat, lng);
     }, [isLoaded, lat, lng]);

@@ -3,7 +3,6 @@ import AlgoliaPlaces from 'algolia-places-react';
 import { DateRangeInput, DateSingleInput, DatePicker } from '@datepicker-react/styled';
 
 import Weather from '../components/Weather';
-//import Skycons from '../utils/skycons-master/skycons';
 
 import '../static/css/reset.css';
 import '../static/css/styles.css';
