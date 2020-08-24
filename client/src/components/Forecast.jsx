@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import SkyCons from '../utils/skycons-master/skycons';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
-import './weatherIcon.css';
+import '../static/css/weatherIcon.css';
 
 const hourlyWeather = (props, index, timezone) => {
     return (

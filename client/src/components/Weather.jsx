@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeForecast, changeLocation, changeLatLng } from '../store/actions';
 
 import SkyCons from '../utils/skycons-master/skycons';
 import Forecast from './Forecast';
 import '../static/css/reset.css';
 import '../static/css/styles.css';
 
-const Weather = ({ location, lat, lng }) => {
+const Weather = () => {
     const [error, setErrors] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [weather, setWeather] = useState([]);
-    const [forecast, setForecast] = useState('hourly');
+    //const [forecast, setForecast] = useState('hourly');
     const [timezone, setTimeZone] = useState('America/Vancouver');
+    
+    // Forecast type
+    const forecast = useSelector(state => state.forecast);
+    const location = useSelector(state => state.location);
+    const latlng = useSelector(state => state.latlng);
     
     const conditions = ['time', 'summary', 'icon', 'precipProbability'] + (forecast === 'hourly' ? ['temperature', 'apparentTemperature'] : ['temperatureHigh', 'temperatureMin']);
     
-    const date = useSelector(state => state.dateReducer);
-    const locationRedux = useSelector(state => state.locationReducer);
 
     useEffect(() => {
-        getWeather(lat, lng);
-    }, [isLoaded, lat, lng]);
+        getWeather(latlng.lat, latlng.lng);
+    }, [isLoaded, latlng]);
     
     function filter(response, index) {
         return Object.keys(response)
@@ -67,6 +71,9 @@ const Weather = ({ location, lat, lng }) => {
     } else {
         return (
             <div id="currentWeather">
+                {`This is the forecast: ${forecast}`}
+                {`This is the location: ${location}`}
+                {`This is the latlng: ${[latlng.lat, latlng.lng]}`}
                 <div className="font-sans w-full max-w-6xl rounded-lg bg-gray-700 overflow-hidden shadow-lg text-white mt-4 mx-auto">
                     <div className="current-weather flex items-center justify-between px-6 py-4">
                         <div className="flex items-center">

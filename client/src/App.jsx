@@ -7,7 +7,7 @@ import Content from './pages/Content';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import allReducers from './redux/reducers/reducer';
+import allReducers from './store/reducer';
 
 // STORE => GLOBALIZED STATE
 const store = createStore(
