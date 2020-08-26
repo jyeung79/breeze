@@ -21,7 +21,7 @@ const Weather = () => {
     const location = useSelector(state => state.location);
     const latlng = useSelector(state => state.latlng);
     
-    const conditions = ['time', 'summary', 'icon', 'precipProbability'] + (forecast === 'hourly' ? ['temperature', 'apparentTemperature'] : ['temperatureHigh', 'temperatureMin']);
+    const conditions = ['time', 'summary', 'icon', 'precipProbability'] + (forecast === 'Hourly' ? ['temperature', 'apparentTemperature'] : ['temperatureHigh', 'temperatureMin']);
     
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const Weather = () => {
             .catch(err => setErrors(err));
             console.log(response);
             
-            const weatherData = forecast === 'hourly' ? response.hourly : response.daily;
+            const weatherData = forecast === 'Hourly' ? response.hourly : response.daily;
             let filtered =[];
             filtered = weatherData.data.map((entry, index) => filter(entry, index));
             console.log(filtered);

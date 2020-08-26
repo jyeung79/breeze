@@ -3,7 +3,7 @@ import AlgoliaPlaces from 'algolia-places-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeForecast, changeLocation, changeLatLng } from '../store/actions';
 
-
+import Button from '../components/Button';
 import Weather from '../components/Weather';
 //import Skycons from '../utils/skycons-master/skycons';
 
@@ -50,12 +50,8 @@ const Content = () => {
                     </p>
                     <div className="my-auto flex justify-between">
                         <p className="my-auto text-2xl text-gray-700">Forecast</p>
-                        <button className={`mx-2 text-xl hover:bg-blue-500 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded ` + `${forecast === 'hourly' ? "bg-blue-500 text-white opacity-50 cursor-not-allowed" : "bg-transparent text-blue-700"}`} >
-                            Hourly
-                        </button>
-                        <button className={`ml-3 text-xl hover:bg-green-500 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded ` + `${forecast === 'daily' ? "bg-green-500 text-white opacity-50 cursor-not-allowed" : "bg-transparent text-green-700"}`}>
-                            Daily
-                        </button>
+                        <Button type={'Hourly'} />
+                        <Button type={'Daily'} />
                     </div>
                 </div>
                 <Weather />

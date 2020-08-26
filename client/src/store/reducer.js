@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
-    forecast: 'hourly',
+    forecast: 'Hourly',
     location: 'Vancouver, British Columbia, Canada',
     lat: 49.2827,
     lng: -123.1207
