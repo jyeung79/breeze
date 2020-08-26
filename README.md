@@ -1,4 +1,4 @@
 # Breeze - Vacation Weather Forecast App
 Vacation web app that provides historical data and future weather forecasting
 
-<img src="public/img/breeze.webp">
+<img src="/client/public/images/breeze.webp">
