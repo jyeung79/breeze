@@ -9,7 +9,7 @@ const initialState = {
 
 const forecastReducer = (state=initialState.forecast, action) => {
     switch (action.type) {
-        case 'CHANGE_DATE':
+        case 'CHANGE_FORECAST':
             return action.forecast;
         default:
             return state;

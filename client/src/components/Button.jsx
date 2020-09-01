@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import '../static/css/styles.css';
 import { changeForecast } from '../store/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 
 const Button = (props) => {
@@ -12,12 +13,13 @@ const Button = (props) => {
     const color = props.type === 'Hourly' ? 'blue' : 'green';
 
     const handleClick = () => {
-        if (toggle === false) {
-            setToggle(true);
-            dispatch(changeForecast(props.type));
-            console.log(forecast + toggle);
-        }
+        if (forecast !== props.type) dispatch(changeForecast(props.type));
     };
+
+    useEffect(() => {
+        if (forecast !== props.type) setToggle(false);
+        else setToggle(true);
+    }); 
 
     return (
         <button
