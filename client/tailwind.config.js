@@ -7,6 +7,9 @@ module.exports = {
         '512': '64rem',
       }
     },
+    container: {
+      center: true,
+    },
   },
   variants: {},
   plugins: [],

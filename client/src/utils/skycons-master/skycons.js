@@ -1,6 +1,4 @@
-(function(global) {
-  "use strict";
-
+import React from 'react';
   /* Set up a RequestAnimationFrame shim so we can animate efficiently FOR
    * GREAT JUSTICE. */
   var requestInterval, cancelInterval;
@@ -922,5 +920,4 @@
     }
   };
 
-  global.Skycons = Skycons;
-}(this));
+export default Skycons;
