@@ -7,7 +7,7 @@ const dotenv = require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-let api = process.env.REACT_APP_DARK_SKY_API;
+let api = process.env.DARK_SKY_API;
 
 app.use(cors());
 app.use(bodyParser.json());
