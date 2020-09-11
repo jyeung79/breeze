@@ -17,6 +17,13 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
+app.get('/', () => {
+    res.send(`This server pulls weather data from <a href="https://darksky.net/dev">DarkSkyApi</a>.
+    Use the api in this format: http://breeze-express.herokuapp.com/search?lat=LOCATION_LAT&lng=LOCATION_LNG 
+    Replace LOCATION_LAT & LOCATION_LNG with the latitude and longitude floating point number of your choice.
+    `);
+});
+
 app.get('/search', async function(req, res) {
     console.log(req.query);
     if (req.query.lat !== undefined && req.query.lng !== undefined) {
