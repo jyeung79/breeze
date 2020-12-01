@@ -2,16 +2,21 @@
     <img width="450" height="76" src="/client/public/images/breezeLogo.png">
 </div>
 
----
 ## Introduction
 
-A Weather Forecasting Web Application that allows users to search hourly or daily weather forecast data. The web app is built using: 
+A Weather Forecasting Web Application that allows users to search hourly or daily weather forecast data. The web app provides custom animated Weather Icons [Skycons](https://github.com/maxdow/skycons) and a clear layout to view relevant weather data. All forecasting data has been provided by [Dark Sky Api](https://darksky.net/dev) and location autocomplete search by [Algolia Search Places](https://community.algolia.com/places/).
+
+
+### Technologies Used:
 
 * React
 * Redux
+* React Router
 * Express
 * NodeJS
-* TailwindCSS 
+* TailwindCSS
+* DarkSkyAPI
+* AlgoliaPlaceAPI
 
 <img src="/client/public/images/breeze_home.png">
 
